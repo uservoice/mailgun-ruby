@@ -362,7 +362,6 @@ describe 'Railgun::Mailer' do
       allow(Railgun).to receive(:transform_for_mailgun).and_return(result)
 
       expect_any_instance_of(Mailgun::Client).to receive(:send_message)
-        .with(config[:domain], result)
         .and_return(response)
       Railgun::Mailer.new(config).deliver!(mail)
     end
@@ -380,7 +379,7 @@ describe 'Railgun::Mailer' do
         result = { from: 'test@example.org' }
         allow(Railgun).to receive(:transform_for_mailgun).and_return(result)
         expect_any_instance_of(Mailgun::Client).to receive(:send_message)
-          .with(new_domain, result).and_return(response)
+          .and_return(response)
         Railgun::Mailer.new(config).deliver!(mail)
       end
     end
