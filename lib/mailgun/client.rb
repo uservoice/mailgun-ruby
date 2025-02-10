@@ -52,6 +52,12 @@ module Mailgun
       @http_client.options[:password] = api_key
     end
 
+    # Change API Host ## Need to re-instantiate/override http_client. do I need to set it back when I'm done?
+    def set_api_host(api_host)
+      endpoint = endpoint_generator(api_host, api_version, ssl)
+      @http_client = RestClient::Resource.new(endpoint, rest_client_params)
+    end
+
     # Add subaccount id to headers
     def set_subaccount(subaccount_id)
       @http_client.options[:headers] = { SUBACCOUNT_HEADER => subaccount_id }

@@ -49,10 +49,12 @@ module Railgun
     def deliver!(mail)
       @mg_domain = set_mg_domain(mail)
       @mg_client.set_api_key(mail[:api_key].value) if mail[:api_key].present?
+      @mg_client.set_api_host(mail[:api_host].value) if mail[:api_host].present?
       @mg_client.set_subaccount(mail[:subaccount_id].value) if mail[:subaccount_id].present?
 
       mail[:domain] = nil if mail[:domain].present?
       mail[:api_key] = nil if mail[:api_key].present?
+      mail[:api_host] = nil if mail[:api_host].present?
       mail[:subaccount_id] = nil if mail[:subaccount_id].present?
 
       mg_message = Railgun.transform_for_mailgun(mail)
