@@ -31,6 +31,8 @@ module Mailgun
       @http_client = RestClient::Resource.new(endpoint, rest_client_params)
       @test_mode = test_mode
       @api_version = api_version
+      @ssl = ssl
+      @rest_client_params = rest_client_params
     end
 
     # Enable test mode
@@ -54,10 +56,8 @@ module Mailgun
 
     # Change API Host ## Need to re-instantiate/override http_client. do I need to set it back when I'm done?
     def set_api_host(api_host)
-      api_version = Mailgun.api_version  || 'v3'
-      ssl = true
-      endpoint = endpoint_generator(api_host, api_version, ssl)
-      @http_client = RestClient::Resource.new(endpoint, rest_client_params)
+      endpoint = endpoint_generator(api_host, self.api_version, self.ssl)
+      @http_client = RestClient::Resource.new(endpoint, self.rest_client_params)
     end
 
     # Add subaccount id to headers
@@ -80,6 +80,16 @@ module Mailgun
     # @return [String] client api version
     def api_version
       @api_version
+    end
+
+    # @return [String] client  rest params
+    def rest_client_params
+      @rest_client_params
+    end
+
+    # @return [String] client ssl
+    def ssl
+      @ssl
     end
 
     # Provides a store of all the emails sent in test mode so you can check them.
