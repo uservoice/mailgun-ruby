@@ -54,6 +54,8 @@ module Mailgun
 
     # Change API Host ## Need to re-instantiate/override http_client. do I need to set it back when I'm done?
     def set_api_host(api_host)
+      api_version = Mailgun.api_version  || 'v3'
+      ssl = true
       endpoint = endpoint_generator(api_host, api_version, ssl)
       @http_client = RestClient::Resource.new(endpoint, rest_client_params)
     end
